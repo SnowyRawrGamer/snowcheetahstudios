@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Markdown } from "@/components/markdown";
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { DEFAULT_SETTINGS, fetchSettings, type SettingsMap } from "@/lib/site-data";
@@ -284,22 +285,33 @@ function WriteTab({ cats, devlogs, onSaved }: { cats: Cat[]; devlogs: Devlog[]; 
         </div>
 
         <div>
-          <div className={labelCls + " mb-1.5"}>Content (Markdown)</div>
+          <div className={labelCls + " mb-1.5"}>Content — write on the left, see the result on the right</div>
           <div className="mb-2 flex flex-wrap gap-1">
             <ToolBtn onClick={() => wrap("**")} title="Bold"><Bold className="h-4 w-4" /></ToolBtn>
             <ToolBtn onClick={() => wrap("*")} title="Italic"><Italic className="h-4 w-4" /></ToolBtn>
             <ToolBtn onClick={() => insertAtLineStart("# ")} title="H1"><Heading1 className="h-4 w-4" /></ToolBtn>
             <ToolBtn onClick={() => insertAtLineStart("## ")} title="H2"><Heading2 className="h-4 w-4" /></ToolBtn>
             <ToolBtn onClick={insertLink} title="Link"><LinkIcon className="h-4 w-4" /></ToolBtn>
-            <ToolBtn onClick={insertImage} title="Image"><ImageIcon className="h-4 w-4" /></ToolBtn>
+            <ToolBtn onClick={insertImage} title="Insert image (by URL)"><ImageIcon className="h-4 w-4" /></ToolBtn>
           </div>
-          <textarea
-            ref={textareaRef}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className={inputCls + " min-h-[280px] font-mono text-sm leading-relaxed"}
-            placeholder="# Hello world\n\nWrite your devlog in Markdown..."
-          />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <textarea
+              ref={textareaRef}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className={inputCls + " min-h-[320px] font-mono text-sm leading-relaxed"}
+              placeholder={"# Hello world\n\nStart writing here..."}
+            />
+            <div className="min-h-[320px] overflow-y-auto rounded-xl border border-border bg-white px-4 py-3">
+              {content.trim() ? (
+                <div className="scale-[0.85] origin-top-left w-[117.6%]">
+                  <Markdown>{content}</Markdown>
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground">Your preview will appear here as you type.</p>
+              )}
+            </div>
+          </div>
         </div>
 
         <label className="flex items-center gap-3 rounded-xl border border-border bg-white px-4 py-3">
