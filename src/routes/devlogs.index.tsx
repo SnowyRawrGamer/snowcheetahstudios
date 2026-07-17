@@ -31,6 +31,7 @@ function DevlogsIndex() {
         supabase.from("devlogs")
           .select("id, slug, title, main_image_url, created_at, is_public, categories(name, slug)")
           .eq("is_public", true)
+          .lte("publish_at", new Date().toISOString())
           .order("created_at", { ascending: false }),
         supabase.from("categories").select("id, name, slug").order("name"),
       ]);
