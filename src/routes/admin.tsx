@@ -325,14 +325,31 @@ function WriteTab({ cats, devlogs, onSaved }: { cats: Cat[]; devlogs: Devlog[]; 
           </div>
         </div>
 
-        <Field label="Publish date">
-  <input
-    type="datetime-local"
-    value={publishAt}
-    onChange={(e) => setPublishAt(e.target.value)}
-    className={inputCls}
-  />
-</Field>
+        <div className="grid gap-4 sm:grid-cols-2">
+  <Field label="Publish date">
+    <input
+      type="date"
+      value={publishAt ? publishAt.slice(0, 10) : ""}
+      onChange={(e) => {
+        const time = publishAt ? publishAt.slice(11, 16) : "00:00";
+        setPublishAt(`${e.target.value}T${time}`);
+      }}
+      className={inputCls}
+    />
+  </Field>
+
+  <Field label="Publish time">
+    <input
+      type="time"
+      value={publishAt ? publishAt.slice(11, 16) : ""}
+      onChange={(e) => {
+        const date = publishAt ? publishAt.slice(0, 10) : new Date().toISOString().slice(0, 10);
+        setPublishAt(`${date}T${e.target.value}`);
+      }}
+      className={inputCls}
+    />
+  </Field>
+</div>
         <Field label="Display date">
   <input
     type="date"
