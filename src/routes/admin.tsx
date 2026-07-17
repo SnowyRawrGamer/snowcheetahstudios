@@ -9,34 +9,43 @@ import {
   Save, Trash2, Plus, LogOut, PawPrint, Eye, EyeOff, Pencil,
 } from "lucide-react";
 
-const ADMIN_USER = "SnowyRawrGamer";
-const ADMIN_PASS = "April242009!";
-const AUTH_KEY = "sc_admin_auth_v1";
-
 export const Route = createFileRoute("/admin")({
   component: Admin,
 });
 
 function Admin() {
-  const [authed, setAuthed] = useState(false);
-  useEffect(() => { setAuthed(typeof window !== "undefined" && sessionStorage.getItem(AUTH_KEY) === "1"); }, []);
-  if (!authed) return <Login onLogin={() => setAuthed(true)} />;
-  return <Dashboard onLogout={() => { sessionStorage.removeItem(AUTH_KEY); setAuthed(false); }} />;
+  const [session, setSession] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setLoading(false);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession);
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  if (loading) return null;
+  if (!session) return <Login />;
+  return <Dashboard onLogout={() => supabase.auth.signOut()} />;
 }
 
-function Login({ onLogin }: { onLogin: () => void }) {
-  const [u, setU] = useState("");
-  const [p, setP] = useState("");
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [err, setErr] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (u === ADMIN_USER && p === ADMIN_PASS) {
-      sessionStorage.setItem(AUTH_KEY, "1");
-      onLogin();
-    } else {
-      setErr(true);
-    }
+    setSubmitting(true);
+    setErr(false);
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setSubmitting(false);
+    if (error) { setErr(true); return; }
   }
 
   return (
@@ -52,14 +61,16 @@ function Login({ onLogin }: { onLogin: () => void }) {
           </div>
         </div>
         <form onSubmit={submit} className="space-y-4">
-          <Field label="Username">
-            <input value={u} onChange={(e) => setU(e.target.value)} className={inputCls} autoComplete="username" />
+          <Field label="Email">
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} autoComplete="username" />
           </Field>
           <Field label="Password">
-            <input type="password" value={p} onChange={(e) => setP(e.target.value)} className={inputCls} autoComplete="current-password" />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className={inputCls} autoComplete="current-password" />
           </Field>
           {err && <div className="rounded-lg bg-destructive/10 px-3 py-2 text-sm font-semibold text-destructive">Invalid credentials.</div>}
-          <button type="submit" className="btn-primary w-full rounded-full py-3 text-sm font-extrabold">Sign in</button>
+          <button type="submit" disabled={submitting} className="btn-primary w-full rounded-full py-3 text-sm font-extrabold disabled:opacity-60">
+            {submitting ? "Signing in..." : "Sign in"}
+          </button>
         </form>
       </div>
     </div>
@@ -432,7 +443,6 @@ function SettingsTab() {
 
   if (loading) return <div className="text-muted-foreground">Loading...</div>;
 
-  // Format countdown for datetime-local input
   const countdownLocal = s.countdown_target
     ? new Date(s.countdown_target).toISOString().slice(0, 16)
     : "";
