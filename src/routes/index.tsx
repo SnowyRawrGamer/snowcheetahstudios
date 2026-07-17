@@ -72,7 +72,14 @@ function Home() {
             </div>
           </div>
 
-          <div className="card-frost rounded-3xl p-6 sm:p-8">
+         <div className="card-frost rounded-3xl p-6 sm:p-8">
+            {settings.hero_image_url && (
+              <img
+                src={settings.hero_image_url}
+                alt={settings.hero_title}
+                className="mb-5 w-full rounded-2xl border border-border object-cover shadow-md"
+              />
+            )}
             <div className="flex items-center gap-2 text-primary">
               <Snowflake className="h-5 w-5" />
               <span className="text-sm font-bold uppercase tracking-wider">Launching in</span>
@@ -81,7 +88,7 @@ function Home() {
               <Countdown target={settings.countdown_target} />
             </div>
             <p className="mt-5 text-sm text-muted-foreground">
-              Live countdown to the next big drop. Stay frosty.
+              Live countdown to the next big drop.
             </p>
           </div>
         </div>
