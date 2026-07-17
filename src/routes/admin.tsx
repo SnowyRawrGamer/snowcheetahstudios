@@ -87,8 +87,16 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 type Cat = { id: string; name: string; slug: string };
 type Devlog = {
-  id: string; title: string; slug: string; main_image_url: string | null;
-  content: string; category_id: string | null; is_public: boolean; created_at: string;
+  id: string;
+  title: string;
+  slug: string;
+  main_image_url: string | null;
+  content: string;
+  category_id: string | null;
+  is_public: boolean;
+  created_at: string;
+  publish_at: string | null;
+  display_date: string | null;
 };
 
 function Dashboard({ onLogout }: { onLogout: () => void }) {
@@ -196,6 +204,14 @@ function WriteTab({ cats, devlogs, onSaved }: { cats: Cat[]; devlogs: Devlog[]; 
     setImageUrl(d.main_image_url ?? "");
     setContent(d.content);
     setIsPublic(d.is_public);
+
+setPublishAt(
+  d.publish_at
+    ? new Date(d.publish_at).toISOString().slice(0, 16)
+    : ""
+);
+
+setDisplayDate(d.display_date ?? "");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
