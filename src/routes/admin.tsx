@@ -174,6 +174,8 @@ function WriteTab({ cats, devlogs, onSaved }: { cats: Cat[]; devlogs: Devlog[]; 
   const [imageUrl, setImageUrl] = useState("");
   const [content, setContent] = useState("");
   const [isPublic, setIsPublic] = useState(true);
+  const [publishAt, setPublishAt] = useState("");
+  const [displayDate, setDisplayDate] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   function reset() {
@@ -233,6 +235,8 @@ function WriteTab({ cats, devlogs, onSaved }: { cats: Cat[]; devlogs: Devlog[]; 
       content,
       category_id: categoryId || null,
       is_public: isPublic,
+      publish_at: publishAt ? new Date(publishAt).toISOString() : null,
+      display_date: displayDate || null,
     };
     if (editingId) {
       const { error } = await supabase.from("devlogs").update(payload).eq("id", editingId);
@@ -314,6 +318,22 @@ function WriteTab({ cats, devlogs, onSaved }: { cats: Cat[]; devlogs: Devlog[]; 
           </div>
         </div>
 
+        <Field label="Publish date">
+  <input
+    type="datetime-local"
+    value={publishAt}
+    onChange={(e) => setPublishAt(e.target.value)}
+    className={inputCls}
+  />
+</Field>
+        <Field label="Display date">
+  <input
+    type="date"
+    value={displayDate}
+    onChange={(e) => setDisplayDate(e.target.value)}
+    className={inputCls}
+  />
+</Field>
         <label className="flex items-center gap-3 rounded-xl border border-border bg-white px-4 py-3">
           <input type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} className="h-4 w-4 accent-primary" />
           <span className="flex-1">
