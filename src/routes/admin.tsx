@@ -306,7 +306,7 @@ function WriteTab({ cats, devlogs, onSaved }: { cats: Cat[]; devlogs: Devlog[]; 
               className={inputCls + " min-h-[320px] font-mono text-sm leading-relaxed"}
               placeholder={"# Hello world\n\nStart writing here..."}
             />
-            <div className="min-h-[320px] overflow-y-auto rounded-xl border border-border bg-white px-4 py-3">
+            <div className="h-[320px] overflow-y-auto rounded-xl border border-border bg-white px-4 py-3">
               {content.trim() ? (
                 <div className="scale-[0.85] origin-top-left w-[117.6%]">
                   <Markdown>{content}</Markdown>
