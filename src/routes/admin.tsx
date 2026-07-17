@@ -459,6 +459,9 @@ function SettingsTab() {
           <input value={s.hero_subtitle || ""} onChange={(e) => set("hero_subtitle", e.target.value)} className={inputCls} />
         </Field>
       </div>
+      <Field label="Main image URL (shown on the front page)">
+        <input value={s.hero_image_url || ""} onChange={(e) => set("hero_image_url", e.target.value)} className={inputCls} placeholder="https://..." />
+      </Field>
 
       <Field label="Featured game title">
         <input value={s.featured_game_title || ""} onChange={(e) => set("featured_game_title", e.target.value)} className={inputCls} />
