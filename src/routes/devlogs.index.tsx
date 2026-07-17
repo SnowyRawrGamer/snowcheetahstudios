@@ -29,10 +29,10 @@ function DevlogsIndex() {
     async function load() {
       const [{ data: d }, { data: c }] = await Promise.all([
         supabase.from("devlogs")
-          .select("id, slug, title, main_image_url, created_at, is_public, categories(name, slug)")
-          .eq("is_public", true)
-          .lte("publish_at", new Date().toISOString())
-          .order("created_at", { ascending: false }),
+      .select("id, slug, title, main_image_url, created_at, is_public, display_date, categories(name, slug)")
+      .eq("is_public", true)
+      .or(`publish_at.is.null,publish_at.lte.${new Date().toISOString()}`)
+      .order("created_at", { ascending: false })
         supabase.from("categories").select("id, name, slug").order("name"),
       ]);
       if (!alive) return;
