@@ -503,16 +503,60 @@ const countdownMinute = countdownDate
       </div>
 
       <Field label="Countdown target date & time">
-        <input
-          type="datetime-local"
-          value={countdownLocal}
-          onChange={(e) => {
-            const v = e.target.value;
-            set("countdown_target", v ? new Date(v).toISOString() : "");
-          }}
-          className={inputCls}
-        />
-      </Field>
+  <div className="grid grid-cols-[1fr_auto_auto] gap-2">
+    <input
+      type="date"
+      value={countdownDateValue}
+      onChange={(e) => {
+        const date = e.target.value;
+
+        if (!date) {
+          set("countdown_target", "");
+          return;
+        }
+
+        const current = countdownDate ?? new Date();
+
+        current.setFullYear(
+          Number(date.slice(0, 4)),
+          Number(date.slice(5, 7)) - 1,
+          Number(date.slice(8, 10))
+        );
+
+        set("countdown_target", current.toISOString());
+      }}
+      className={inputCls}
+    />
+
+    <input
+      type="number"
+      min="0"
+      max="23"
+      value={countdownHour}
+      onChange={(e) => {
+        const current = countdownDate ?? new Date();
+        current.setHours(Number(e.target.value));
+        set("countdown_target", current.toISOString());
+      }}
+      className={inputCls + " w-20"}
+      placeholder="HH"
+    />
+
+    <input
+      type="number"
+      min="0"
+      max="59"
+      value={countdownMinute}
+      onChange={(e) => {
+        const current = countdownDate ?? new Date();
+        current.setMinutes(Number(e.target.value));
+        set("countdown_target", current.toISOString());
+      }}
+      className={inputCls + " w-20"}
+      placeholder="MM"
+    />
+  </div>
+</Field>
 
       <button type="submit" className="btn-primary inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-extrabold">
         <Save className="h-4 w-4" /> Save settings
