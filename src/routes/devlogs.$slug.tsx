@@ -31,14 +31,63 @@ function DevlogPage() {
       if (!data) { setState("notfound"); return; }
       setLog(data as unknown as Full);
       setState("ready");
-      const { data: rel } = await supabase
-        .from("devlogs")
-        .select("id, slug, title, main_image_url, created_at, is_public, categories(name, slug)")
-        .eq("is_public", true)
-        .neq("slug", slug)
-        .order("created_at", { ascending: false })
-        .limit(3);
-      if (alive) setRelated((rel ?? []) as unknown as DevlogCardData[]);
+const { data: rel } = await supabase
+  .from("devlogs")
+  .select("id, slug, title, main_image_url, created_at, is_public, categories(name, slug)")
+  .eq("is_public", true)
+  .neq("slug", slug)
+  .limit(50);
+
+if (alive) {
+  const currentCategories = (data.categories ?? []).map(
+    (c: any) => c.slug
+  );
+
+  const scored = ((rel ?? []) as unknown as DevlogCardData[])
+    .map((post) => {
+      let score = 0;
+
+      // Category matching
+      const postCategories = (post.categories ?? []).map(
+        (c: any) => c.slug
+      );
+
+      const matchingCategories = postCategories.filter((c: string) =>
+        currentCategories.includes(c)
+      ).length;
+
+      if (matchingCategories > 0) {
+        score += 4;
+        score += (matchingCategories - 1) * 2;
+      }
+
+      // Freshness
+      const age =
+        Date.now() - new Date(post.created_at).getTime();
+
+      const daysOld = age / (1000 * 60 * 60 * 24);
+
+      if (daysOld <= 1) {
+        score += 10;
+      } else if (daysOld <= 7) {
+        score += 8;
+      } else if (daysOld <= 14) {
+        score += 5;
+      } else if (daysOld <= 30) {
+        score += 2;
+      }
+
+      return {
+        post,
+        score,
+      };
+    })
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map((x) => x.post);
+
+  setRelated(scored);
+}
     }
     load();
     return () => { alive = false; };
