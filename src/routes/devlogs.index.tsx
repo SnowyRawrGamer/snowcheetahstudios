@@ -27,14 +27,24 @@ function DevlogsIndex() {
   useEffect(() => {
     let alive = true;
     async function load() {
-      const [{ data: d }, { data: c }] = await Promise.all([
+      const [
+  { data: d, error: devlogsError },
+  { data: c, error: categoriesError },
+] = await Promise.all([
         supabase.from("devlogs")
-      .select("id, slug, title, main_image_url, created_at, is_public, display_date, categories(name, slug)")
+      .select("id, slug, title, main_image_url, created_at, is_public, display_date, publish_at, categories(name, slug)")
       .eq("is_public", true)
       .or(`publish_at.is.null,publish_at.lte.${new Date().toISOString()}`)
       .order("created_at", { ascending: false }),
         supabase.from("categories").select("id, name, slug").order("name"),
       ]);
+      if (devlogsError) {
+  console.error("Devlogs error:", devlogsError);
+}
+
+if (categoriesError) {
+  console.error("Categories error:", categoriesError);
+}
       if (!alive) return;
       setLogs((d ?? []) as unknown as DevlogCardData[]);
       setCats((c ?? []) as Cat[]);
