@@ -179,8 +179,15 @@ function WriteTab({ cats, devlogs, onSaved }: { cats: Cat[]; devlogs: Devlog[]; 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   function reset() {
-    setEditingId(null); setTitle(""); setCategoryId(""); setImageUrl(""); setContent(""); setIsPublic(true);
-  }
+  setEditingId(null);
+  setTitle("");
+  setCategoryId("");
+  setImageUrl("");
+  setContent("");
+  setIsPublic(true);
+  setPublishAt("");
+  setDisplayDate("");
+}
 
   function loadEdit(d: Devlog) {
     setEditingId(d.id);
