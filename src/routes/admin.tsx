@@ -308,7 +308,7 @@ function WriteTab({ cats, devlogs, onSaved }: { cats: Cat[]; devlogs: Devlog[]; 
             />
             <div className="h-[320px] overflow-y-auto rounded-xl border border-border bg-white px-4 py-3">
               {content.trim() ? (
-                <div className="scale-[0.85] origin-top-left w-[117.6%]">
+                <div className="origin-top-left">
                   <Markdown>{content}</Markdown>
                 </div>
               ) : (
