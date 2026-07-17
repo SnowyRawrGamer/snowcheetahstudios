@@ -9,38 +9,75 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DevlogsIndexRouteImport } from './routes/devlogs.index'
+import { Route as DevlogsSlugRouteImport } from './routes/devlogs.$slug'
 
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevlogsIndexRoute = DevlogsIndexRouteImport.update({
+  id: '/devlogs/',
+  path: '/devlogs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevlogsSlugRoute = DevlogsSlugRouteImport.update({
+  id: '/devlogs/$slug',
+  path: '/devlogs/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/devlogs/$slug': typeof DevlogsSlugRoute
+  '/devlogs/': typeof DevlogsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/devlogs/$slug': typeof DevlogsSlugRoute
+  '/devlogs': typeof DevlogsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/devlogs/$slug': typeof DevlogsSlugRoute
+  '/devlogs/': typeof DevlogsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/admin' | '/devlogs/$slug' | '/devlogs/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/admin' | '/devlogs/$slug' | '/devlogs'
+  id: '__root__' | '/' | '/admin' | '/devlogs/$slug' | '/devlogs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  DevlogsSlugRoute: typeof DevlogsSlugRoute
+  DevlogsIndexRoute: typeof DevlogsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +85,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/devlogs/': {
+      id: '/devlogs/'
+      path: '/devlogs'
+      fullPath: '/devlogs/'
+      preLoaderRoute: typeof DevlogsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/devlogs/$slug': {
+      id: '/devlogs/$slug'
+      path: '/devlogs/$slug'
+      fullPath: '/devlogs/$slug'
+      preLoaderRoute: typeof DevlogsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  DevlogsSlugRoute: DevlogsSlugRoute,
+  DevlogsIndexRoute: DevlogsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
