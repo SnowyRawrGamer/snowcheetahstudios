@@ -83,10 +83,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Snow Cheetah Studios — Roblox Games & Devlogs" },
       { name: "description", content: "Snow Cheetah Studios crafts playful Roblox worlds. Follow devlogs, countdowns, and new releases." },
       { name: "author", content: "Snow Cheetah Studios" },
-      { property: "og:title", content: "Snow Cheetah Studios" },
-      { property: "og:description", content: "Playful Roblox game studio. Devlogs, countdowns, and new releases." },
+      { property: "og:title", content: "Snow Cheetah Studios — Roblox Games & Devlogs" },
+      { property: "og:description", content: "Snow Cheetah Studios crafts playful Roblox worlds. Follow devlogs, countdowns, and new releases." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Snow Cheetah Studios — Roblox Games & Devlogs" },
+      { name: "twitter:description", content: "Snow Cheetah Studios crafts playful Roblox worlds. Follow devlogs, countdowns, and new releases." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9c786459-2367-4dd2-8175-cf97889c48a9/id-preview-849a0a59--04e90b63-2c49-4322-8fc2-71460605a2e0.lovable.app-1784296851372.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9c786459-2367-4dd2-8175-cf97889c48a9/id-preview-849a0a59--04e90b63-2c49-4322-8fc2-71460605a2e0.lovable.app-1784296851372.png" },
     ],
     links: [
       {
