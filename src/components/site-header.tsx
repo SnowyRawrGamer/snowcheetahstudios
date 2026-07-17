@@ -4,7 +4,6 @@ import { PawPrint } from "lucide-react";
 const nav = [
   { to: "/", label: "Home" },
   { to: "/devlogs", label: "Devlogs" },
-  { to: "/admin", label: "Admin" },
 ] as const;
 
 export function SiteHeader() {
