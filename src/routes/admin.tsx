@@ -455,9 +455,21 @@ function SettingsTab() {
 
   if (loading) return <div className="text-muted-foreground">Loading...</div>;
 
-  const countdownLocal = s.countdown_target
-    ? new Date(s.countdown_target).toISOString().slice(0, 16)
-    : "";
+ const countdownDate = s.countdown_target
+  ? new Date(s.countdown_target)
+  : null;
+
+const countdownDateValue = countdownDate
+  ? countdownDate.toISOString().slice(0, 10)
+  : "";
+
+const countdownHour = countdownDate
+  ? String(countdownDate.getHours()).padStart(2, "0")
+  : "00";
+
+const countdownMinute = countdownDate
+  ? String(countdownDate.getMinutes()).padStart(2, "0")
+  : "00";
 
   return (
     <form onSubmit={save} className="card-frost rounded-3xl p-6 space-y-5">
