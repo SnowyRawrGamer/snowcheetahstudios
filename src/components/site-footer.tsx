@@ -11,7 +11,7 @@ export function SiteFooter() {
             </span>
             <div>
               <div className="font-extrabold text-slate-deep">Snow Cheetah Studios</div>
-              <div className="text-xs text-muted-foreground">Playful worlds from a snowy peak.</div>
+              <div className="text-xs text-muted-foreground">A small development studio owned by SnowyRawrGamer.</div>
             </div>
           </div>
           <div className="flex flex-wrap gap-3">
