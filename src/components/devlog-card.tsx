@@ -8,6 +8,7 @@ export type DevlogCardData = {
   title: string;
   main_image_url: string | null;
   created_at: string;
+  display_date?: string | null;
   is_public: boolean;
   categories?: { name: string; slug: string } | null;
 };
