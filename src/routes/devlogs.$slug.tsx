@@ -23,7 +23,7 @@ function DevlogPage() {
     async function load() {
       const { data } = await supabase
         .from("devlogs")
-        .select("id, slug, title, main_image_url, content, created_at, is_public, categories(name, slug)")
+        .select("id, slug, title, main_image_url, content, created_at, display_date, is_public, categories(name, slug)")
         .eq("slug", slug)
         .eq("is_public", true)
         .maybeSingle();
@@ -33,7 +33,7 @@ function DevlogPage() {
       setState("ready");
 const { data: rel } = await supabase
   .from("devlogs")
-  .select("id, slug, title, main_image_url, created_at, is_public, categories(name, slug)")
+  .select("id, slug, title, main_image_url, created_at, display_date, is_public, categories(name, slug)")
   .eq("is_public", true)
   .neq("slug", slug)
   .limit(50);
