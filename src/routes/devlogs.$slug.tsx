@@ -122,7 +122,7 @@ if (alive) {
             </span>
           )}
           <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
-            <Calendar className="h-4 w-4" /> {formatDate(log.created_at)}
+            <Calendar className="h-4 w-4" /> {formatDate(log.display_date || log.created_at)}
           </span>
         </div>
         <h1 className="mt-4 text-4xl font-extrabold leading-tight text-slate-deep sm:text-5xl">
