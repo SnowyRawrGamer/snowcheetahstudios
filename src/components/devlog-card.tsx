@@ -45,7 +45,7 @@ export function DevlogCard({ log, showPrivate = false }: { log: DevlogCardData; 
             </span>
           )}
           <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-            <Calendar className="h-3 w-3" /> {formatDate(log.created_at)}
+            <Calendar className="h-3 w-3" /> {formatDate(log.display_date || log.created_at)}
           </span>
         </div>
         <h3 className="text-lg font-extrabold leading-snug text-slate-deep group-hover:text-primary transition-colors">
