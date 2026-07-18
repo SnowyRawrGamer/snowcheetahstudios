@@ -22,7 +22,7 @@ function Home() {
       setSettings({ ...DEFAULT_SETTINGS, ...s });
       const { data } = await supabase
         .from("devlogs")
-        .select("id, slug, title, main_image_url, created_at, is_public, categories(name, slug)")
+        .select("id, slug, title, main_image_url, created_at, display_date, is_public, categories(name, slug)")
         .eq("is_public", true)
         .order("created_at", { ascending: false })
         .limit(3);
