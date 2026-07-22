@@ -80,9 +80,9 @@ function Home() {
                 className="mb-5 w-full rounded-2xl border border-border object-cover shadow-md"
               />
             )}
-            <div className="flex items-center gap-2 text-primary">
+           <div className="flex items-center gap-2 text-primary">
               <Snowflake className="h-5 w-5" />
-              <span className="text-sm font-bold uppercase tracking-wider">Launching in</span>
+              <span className="text-sm font-bold uppercase tracking-wider">{settings.countdown_label || "Launching in"}</span>
             </div>
             <div className="mt-4">
               <Countdown target={settings.countdown_target} />
