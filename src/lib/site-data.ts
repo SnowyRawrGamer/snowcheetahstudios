@@ -10,11 +10,12 @@ export async function fetchSettings(): Promise<SettingsMap> {
 }
 export const DEFAULT_SETTINGS: SettingsMap = {
   hero_title: "Snow Cheetah Studios",
-  hero_subtitle: "A community owned by SnowyRawrGamer.",
+  hero_subtitle: "Crafting playful Roblox worlds from a snowy peak.",
   hero_image_url: "",
   featured_game_title: "Escape Tsunami For Pets",
-  featured_game_description: "Dodge waves and collect rare pets!",
+  featured_game_description: "Race against the rising wave to save every pet you love.",
   featured_game_url: "https://view-link.cx/OuIP4sdxDhZ",
   featured_game_cta: "Play on Roblox",
   countdown_target: "",
+  countdown_label: "Launching in",
 };
