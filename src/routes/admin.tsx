@@ -561,7 +561,9 @@ const countdownMinute = countdownDate
           <input value={s.featured_game_cta || ""} onChange={(e) => set("featured_game_cta", e.target.value)} className={inputCls} placeholder="Play on Roblox" />
         </Field>
       </div>
-
+      <Field label="Countdown label (text shown above the timer)">
+        <input value={s.countdown_label || ""} onChange={(e) => set("countdown_label", e.target.value)} className={inputCls} placeholder="Launching in" />
+      </Field>
       <Field label="Countdown target date & time">
   <div className="grid grid-cols-[1fr_auto_auto] gap-2">
     <input
